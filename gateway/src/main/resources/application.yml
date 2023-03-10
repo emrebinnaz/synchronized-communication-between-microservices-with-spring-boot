@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: doctor-service
+          uri: lb://doctor-service
+          predicates:
+            - Path=/v1/doctors/**
+        - id: hospital-service
+          uri: lb://hospital-service
+          predicates:
+            - Path=/v1/hospitals/**
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+  zipkin:
+    base-url: http://localhost:9411
+server:
+  port: 8888
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+
+
+# Spring actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" # It adds all actuator links.
+        exclude: info # Removes info links.
