@@ -3,6 +3,7 @@ package com.example.hospitalservice.controller;
 import com.example.hospitalservice.dto.request.AddDoctorRequest;
 import com.example.hospitalservice.dto.response.HospitalDto;
 import com.example.hospitalservice.service.HospitalService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -17,10 +18,18 @@ public class HospitalController {
 
     private final HospitalService hospitalService;
 
+    @Value("${hospital.service.count}")
+    private Integer count;
+
     public HospitalController(HospitalService hospitalService) {
         this.hospitalService = hospitalService;
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<String> getCount() {
+        return ResponseEntity.ok("Hospital service count : " + count);
+
+    }
     @PostMapping
     public ResponseEntity<Void> createHospital() {
         hospitalService.createHospital();
