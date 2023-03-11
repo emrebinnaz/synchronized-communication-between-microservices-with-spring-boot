@@ -18,7 +18,7 @@ public class HospitalController {
 
     private final HospitalService hospitalService;
 
-    @Value("${hospital.service.count}")
+    @Value("${hospital-service.count}")
     private Integer count;
 
     public HospitalController(HospitalService hospitalService) {
