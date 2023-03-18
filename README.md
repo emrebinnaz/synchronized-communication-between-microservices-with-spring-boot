@@ -16,7 +16,7 @@
     * Spring
         * Spring Boot
         * Spring Web
-            * FeighClient
+            * FeignClient
         * Spring Data
             * Spring Data JPA
         * Spring Cloud
