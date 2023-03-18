@@ -1,0 +1,16 @@
+syntax = "proto3";
+option java_multiple_files = true;
+/*Allows to define more than one grpc service  */
+package com.example.doctorservice;
+message DoctorId {
+  string doctorId = 1;  /*Numbers indicate parameter places in constructor.*/
+  // response
+}
+
+message IdentityNumber {
+  string identityNumber = 1;
+  // request
+}
+service DoctorService {
+  rpc getDoctorIdByIdentityNumber(IdentityNumber) returns (DoctorId);
+}

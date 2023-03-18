@@ -1,5 +1,8 @@
 package com.example.hospitalservice.service.impl;
 
+import com.example.doctorservice.DoctorId;
+import com.example.doctorservice.DoctorServiceGrpc;
+import com.example.doctorservice.IdentityNumber;
 import com.example.hospitalservice.client.DoctorServiceClient;
 import com.example.hospitalservice.constants.ErrorMessages;
 import com.example.hospitalservice.dto.request.AddDoctorRequest;
@@ -9,10 +12,10 @@ import com.example.hospitalservice.entity.Hospital;
 import com.example.hospitalservice.exception.HospitalNotFoundException;
 import com.example.hospitalservice.repository.HospitalRepository;
 import com.example.hospitalservice.service.HospitalService;
+import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,6 +23,10 @@ public class HospitalServiceImpl implements HospitalService {
 
     private final HospitalRepository hospitalRepository;
     private final DoctorServiceClient doctorServiceClient;
+
+    @GrpcClient("doctor-service")
+    private DoctorServiceGrpc.DoctorServiceBlockingStub doctorServiceBlockingStub; // for sync communication
+    // default stub can be used both sync and async communications.
 
     public HospitalServiceImpl(HospitalRepository hospitalRepository, DoctorServiceClient doctorServiceClient) {
         this.hospitalRepository = hospitalRepository;
@@ -32,14 +39,17 @@ public class HospitalServiceImpl implements HospitalService {
 
     @Override
     public void addDoctorToHospital(AddDoctorRequest request) {
-        final String doctorId = doctorServiceClient.getDoctorIdByIdentityNumber(request.getIdentityNumber())
+      /*  final String doctorId = doctorServiceClient.getDoctorIdByIdentityNumber(request.getIdentityNumber())
                 .getBody()
-                .getDoctorId();
+                .getDoctorId();*/
+
+        final DoctorId doctorId = doctorServiceBlockingStub.getDoctorIdByIdentityNumber(IdentityNumber.newBuilder().setIdentityNumber(request.getIdentityNumber()).build());
 
         final Hospital hospital = hospitalRepository.findById(request.getId())
                 .orElseThrow(() -> new HospitalNotFoundException(ErrorMessages.HOSPITAL_NOT_FOUND + request.getId()));
 
-        hospital.getDoctorList().add(doctorId);
+        //hospital.getDoctorList().add(doctorId);
+        hospital.getDoctorList().add(doctorId.getDoctorId());
         hospitalRepository.save(hospital);
     }
 

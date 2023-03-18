@@ -10,6 +10,7 @@
         <module name="config-server" />
         <module name="eureka-server" />
         <module name="gateway" />
+        <module name="grpc-common" />
         <module name="doctor-service" />
       </profile>
     </annotationProcessing>
@@ -24,6 +25,7 @@
       <module name="doctor-service" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
       <module name="gateway" options="-parameters" />
+      <module name="grpc-common" options="" />
       <module name="hospital-service" options="-parameters" />
     </option>
   </component>

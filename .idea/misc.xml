@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/hospital-service/pom.xml" />
         <option value="$PROJECT_DIR$/gateway/pom.xml" />
         <option value="$PROJECT_DIR$/config-server/pom.xml" />
+        <option value="$PROJECT_DIR$/grpc-common/pom.xml" />
       </list>
     </option>
   </component>
